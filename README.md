@@ -11,6 +11,7 @@ lightweight alternative to PostMan for simple projects
 
 - `getsh <url>`: defaults to **GET** request, returns data and some info about request
 - `getsh <url> POST`: specify method (GET, POST, DELETE, PUT, PATCH). If POST, PUT or PATCH open `$EDITOR` and specify json string for the request
+- `getsh -d`: output data from last operation - useful for piping
 
 ## Examples
 
