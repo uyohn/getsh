@@ -1,6 +1,6 @@
 # GetSh
 
-simple REST API tester based on `curl`
+simple REST API tester based on `curl`  
 lightweight alternative to PostMan for simple projects
 
 ## Dependencies
