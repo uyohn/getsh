@@ -6,8 +6,11 @@
 URL=$1
 METHOD=$2
 
-JSON_STRING="/home/uyohn/.scripts/.getsh_json_string.json"
-RESPONSE="/home/uyohn/.scripts/.getsh_response.json"
+TMP_DIR="$HOME/.cache/getsh"
+mkdir -p "$TMP_DIR"
+
+JSON_STRING="$TMP_DIR/getsh_json_string.json"
+RESPONSE="$TMP_DIR/getsh_response.json"
 SERVER_CODE=""
 
 
