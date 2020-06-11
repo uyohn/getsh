@@ -1,4 +1,4 @@
-# GetSh
+# GetSh 💨
 
 simple REST API tester based on `curl`  
 lightweight alternative to PostMan for simple projects
