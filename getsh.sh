@@ -129,9 +129,4 @@ echo
 
 printf "\n\n"
 
-# Extract http code
-HTTP_CODE=$( echo $SERVER_CODE )
 [ -z "$SERVER_CODE" ] || echo -e "$SERVER_CODE"
-
-echo "=================="
-echo "$HTTP_CODE"
