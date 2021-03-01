@@ -11,6 +11,7 @@ mkdir -p "$TMP_DIR"
 
 JSON_STRING="$TMP_DIR/getsh_json_string.json"
 RESPONSE="$TMP_DIR/getsh_response.json"
+PROTOCOLS="$TMP_DIT/http_codes"
 RESPONSE_META=""
 
 
@@ -69,6 +70,10 @@ case "$URL" in
 	*)
 		;;
 esac
+
+# ----------------------
+#   No HTTP Codes File
+
 
 
 # --------
