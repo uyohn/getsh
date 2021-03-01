@@ -1,4 +1,5 @@
 #!/bin/sh
+lkasd
 
 # --------
 #   Vars
