@@ -11,7 +11,7 @@ mkdir -p "$TMP_DIR"
 
 JSON_STRING="$TMP_DIR/getsh_json_string.json"
 RESPONSE="$TMP_DIR/getsh_response.json"
-SERVER_CODE=""
+RESPONSE_META=""
 
 
 # -------------
@@ -85,34 +85,26 @@ echo -e "\n\033[1;36m$METHOD\033[0;36m on \033[3m$URL\033[0m"
 
 case "$METHOD" in
 	"GET" | "DELETE")
-		SERVER_CODE=$( 
+		RESPONSE_META=$( 
 			curl -sS \
 				--request $METHOD \
 				$URL \
 				-o $RESPONSE \
-				-w "\033[94mServer Response Code:\033[0m\t\033[36m%{http_code}\033[0m\n\
-\033[94mContent Type:\033[0m\t\t\033[36m%{content_type}\033[0m\n\
-\033[94mRemote Ip:\033[0m\t\t\033[36m%{remote_ip}:%{remote_port}\033[0m\n\
-\033[94mScheme:\033[0m\t\t\t\033[36m%{scheme}\033[0m\n\
-\033[94mTotal Time:\033[0m\t\t\033[36m%{time_total}s\033[0m"
+				-w "%{http_code}#%{content_type}#%{remote_ip}:%{remote_port}#%{scheme}#%{time_total}"
 		)
 		;;
 	"POST" | "PUT" | "PATCH")
 		# Use $EDITOR to build the string
 		$EDITOR $JSON_STRING
 
-		SERVER_CODE=$(
+		RESPONSE_META=$(
 			curl -sS \
 				-o $RESPONSE \
 				--header "Content-Type: application/json" \
 				--request $METHOD \
 				--data "@$JSON_STRING" \
 				$URL \
-				-w "\033[94mServer Response Code:\033[0m\t\033[36m%{http_code}\033[0m\n\
-\033[94mContent Type:\033[0m\t\t\033[36m%{content_type}\033[0m\n\
-\033[94mRemote Ip:\033[0m\t\t\033[36m%{remote_ip}:%{remote_port}\033[0m\n\
-\033[94mScheme:\033[0m\t\t\t\033[36m%{scheme}\033[0m\n\
-\033[94mTotal Time:\033[0m\t\t\033[36m%{time_total}s\033[0m"
+				-w "%{http_code}#%{content_type}#%{remote_ip}:%{remote_port}#%{scheme}#%{time_total}"
 		)
 		;;
 	*)
@@ -129,4 +121,13 @@ echo
 
 printf "\n\n"
 
-[ -z "$SERVER_CODE" ] || echo -e "$SERVER_CODE"
+HTTP_CODE=$( echo "$RESPONSE_META" | awk 'BEGIN {FS = "#"}; {print $1}' )
+HTTP_PROTOCOL=$( grep "$HTTP_CODE" /home/uyohn/Devel/getsh/http_status_codes )
+
+[ -z "$RESPONSE_META" ] || echo "$RESPONSE_META" | awk -v protocol="$HTTP_PROTOCOL" 'BEGIN {FS = "#"} ;
+	{print "\033[94m""Server Response Code:" "\033[0m\t\033[36m"   protocol "\033[0m"};
+	{print "\033[94m""Conent Type:"          "\033[0m\t\t\033[36m" $2 "\033[0m"}
+	{print "\033[94m""Remote IP:"            "\033[0m\t\t\033[36m" $3 "\033[0m"}
+	{print "\033[94m""Scheme:"               "\033[0m\t\t\t\033[36m" $4 "\033[0m"}
+	{print "\033[94m""Total Time:"           "\033[0m\t\t\033[36m" $5 "\033[0m"}
+'
