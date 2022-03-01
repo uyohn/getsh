@@ -5,11 +5,13 @@
 
 URL=$1
 METHOD=$2
+JWT=$3
 
 TMP_DIR="$HOME/.cache/getsh"
 mkdir -p "$TMP_DIR"
 
 JSON_STRING="$TMP_DIR/getsh_json_string.json"
+#JWT_TOKEN="$TMP_DIR/getsh_jwt_token"
 RESPONSE="$TMP_DIR/getsh_response.json"
 PROTOCOLS="$TMP_DIT/http_codes"
 RESPONSE_META=""
